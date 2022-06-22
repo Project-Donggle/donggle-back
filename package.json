@@ -1,0 +1,33 @@
+{
+  "name": "donggle-back",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "tsc && node gist/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shownprove/donggle-back.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/shownprove/donggle-back/issues"
+  },
+  "homepage": "https://github.com/shownprove/donggle-back#readme",
+  "dependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/mongoose": "^5.11.97",
+    "express": "^4.18.1",
+    "express-session": "^1.17.3"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/express-session": "^1.17.4",
+    "@types/node": "^18.0.0",
+    "nodemon": "^2.0.16",
+    "ts-node": "^10.8.1",
+    "typescript": "^4.7.4"
+  }
+}
