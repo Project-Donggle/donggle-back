@@ -18,7 +18,7 @@ const postingSchema = new mongoose.Schema({
     { type: mongoose.Schema.Types.ObjectId, required: false, ref: "comment" },
   ],
   owner: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "user" },
-  report: [{ type: mongoose.Schema.Types.ObjectId, required: false }],
+  report: [{ type: mongoose.Schema.Types.ObjectId, required: false, ref: "user" }],
   reportCount: { type: Number, default: 0 },
 });
 
@@ -28,5 +28,5 @@ postingSchema.pre("save", async function () {
   }
 });
 
-const Posting = mongoose.model("board", postingSchema);
-export default Posting;
+const board = mongoose.model("board", postingSchema);
+export default board;
