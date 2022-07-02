@@ -38,14 +38,18 @@ export const postBoard = async (req: Request, res: Response) => {
 };
 
 /* read */
-export const readBoard = async (req:Request, res:Response, next: NextFunction) => {
-    try {
-        const data = await board.find();
-        return res.status(200).send(data);
-    } catch (error) {
-        return res.status(400);
-    }
-}
+export const readBoard = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const data = await board.find();
+    return res.status(200).send(data);
+  } catch (error) {
+    return res.status(400);
+  }
+};
 
 /* update */
 export const updateBoard: RequestHandler = async (req, res) => {
@@ -64,14 +68,14 @@ export const updateBoard: RequestHandler = async (req, res) => {
     }
     return res.status(200).send({ message: "success" });
   } else if (user && !targetPost) {
-    return res.status(400).send({ messege: "can't find post" });
+    return res.status(400).send({ messege: "can't find board" });
   } else {
     return res.status(400).send({ messege: "can't find user" });
   }
 }; // 게시글이 갖고있는 정보 | url 파라미터 | user 정보 에 따라서 로직은 바뀔수 있음
 
 /* delete */
-export const deletePost: RequestHandler = async (req, res) => {
+export const deleteBoard: RequestHandler = async (req, res) => {
   const requestURL = req.url;
   const { user } = req.session;
   const { id } = req.body;
@@ -83,7 +87,7 @@ export const deletePost: RequestHandler = async (req, res) => {
     }
     return res.status(200).send({ message: "uccess" });
   } else if (user && !targetPost) {
-    return res.status(400).send({ messege: "can't find post" });
+    return res.status(400).send({ messege: "can't find board" });
   } else {
     return res.status(400).send({ messege: "can't find user" });
   }
