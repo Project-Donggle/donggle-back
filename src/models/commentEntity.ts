@@ -3,20 +3,20 @@ import mongoose from "mongoose";
 const commentSchema = new mongoose.Schema({
   date: { type: Date, required: true, default: Date.now },
   contents: { type: String, required: true },
-  owner: { type: mongoose.Schema.Types.ObjectId, requird: true, ref: "User" },
+  owner: { type: mongoose.Schema.Types.ObjectId, requird: true, ref: "user" },
   like: { type: Number, required: true, default: 0 },
   likeUser: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      ref: "user",
     },
   ],
   posting: {
     type: mongoose.Schema.Types.ObjectId,
     requird: true,
-    ref: "Posting",
+    ref: "board",
   },
-  report: [{ type: mongoose.Schema.Types.ObjectId, required: false }],
+  report: [{ type: mongoose.Schema.Types.ObjectId, required: false, ref: "user" }],
   reportCount: { type: Number, default: 0 },
 });
 
@@ -26,5 +26,5 @@ commentSchema.pre("save", async function () {
   }
 });
 
-const Comment = mongoose.model("comment", commentSchema);
-export default Comment;
+const comment = mongoose.model("comment", commentSchema);
+export default comment;
