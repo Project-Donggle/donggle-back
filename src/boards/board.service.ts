@@ -4,12 +4,18 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import Board from '../entities/boardEntity';
+
+import Board from './schemas/board.schema';
 
 @Injectable()
 export class BoardService {
   /* create */
+  createBoard async (body, _id){
+    const user = await User.findById(_id);
+    const { title, contents, emotion } = body;
 
+    Board.
+  }
   /* read */
 
   /* update */

@@ -6,10 +6,11 @@ import {
   Session,
   Param,
   NotFoundException,
+  Post,
 } from '@nestjs/common';
 import { SessionData } from 'express-session';
 import { ObjectId } from 'mongoose';
-import { UpdateBoardDto } from 'src/dto/delete.board.dto';
+import { UpdateBoardDto } from 'src/boards/dtos/update-board.dto';
 import { BoardService } from './board.service';
 
 declare module 'express-session' {
@@ -25,7 +26,14 @@ export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
   /* create - Responsible for 'Odd code' */
-
+  @Post()
+  create(@Body() body: UpdateBoardDto, @Session() session: SessionData) {
+    try {
+      return this.boardService.createBoard(body, session.user._id);
+    } catch (error) {
+      return error;
+    }
+  }
   /* read - Responsible for 'Jjae gi' */
 
   /* update - Responsible for 'FUNco' */

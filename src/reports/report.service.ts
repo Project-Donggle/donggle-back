@@ -4,8 +4,8 @@ import {
   Injectable,
   NotFoundException,
 } from '@nestjs/common';
-import Board from '../entities/boardEntity';
-import Comment from '../entities/commentEntity';
+import { Board } from '../boards/schemas/board.schema';
+import { Reply } from '../boards/schemas/reply.schema';
 import { ObjectId } from 'mongoose';
 
 @Injectable()
@@ -32,14 +32,14 @@ export class ReportService {
 
   private readonly dataTypeCheck = async (
     targetId: ObjectId,
-  ): Promise<String | null> => {
-    const isPosting = await Board.exists({ _id: targetId });
-    const isComment = await Comment.exists({ _id: targetId });
-    let dataType: String | null;
-    if (isPosting) {
-      dataType = 'posting';
-    } else if (isComment) {
-      dataType = 'comment';
+  ): Promise<string | null> => {
+    const isBoard = await Board.exists({ _id: targetId });
+    const isReply = await Reply.exists({ _id: targetId });
+    let dataType: string | null;
+    if (isBoard) {
+      dataType = 'board';
+    } else if (isReply) {
+      dataType = 'reply';
     } else {
       dataType = null;
     }
@@ -49,16 +49,16 @@ export class ReportService {
   private readonly confirmReport = async (
     userid: ObjectId,
     targetId: ObjectId,
-    type: String,
+    type: string,
   ): Promise<boolean> => {
     let result: boolean;
-    if (type === 'posting') {
+    if (type === 'board') {
       await Board.findByIdAndUpdate(targetId, {
         $addToSet: { report: userid },
       });
       result = true;
-    } else if (type === 'comment') {
-      await Comment.findByIdAndUpdate(targetId, {
+    } else if (type === 'reply') {
+      await Reply.findByIdAndUpdate(targetId, {
         $addToSet: { report: userid },
       });
       result = true;
