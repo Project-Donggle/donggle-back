@@ -1,69 +1,82 @@
 import {
   Controller,
   Body,
-  Session,
+  Param,
   Get,
   Post,
-  /* Patch,
+  Patch,
   Delete,
-  Param,
-  NotFoundException, */
+  HttpStatus,
+  Res,
 } from '@nestjs/common';
-import { SessionData } from 'express-session';
-import { ObjectId } from 'mongoose';
 import { CreateBoardDto } from './dtos/create-board.dto';
-/* import { UpdateBoardDto } from 'src/boards/dtos/update-board.dto'; */
+import { UpdateBoardDto } from 'src/boards/dtos/update-board.dto';
 import { BoardService } from './board.service';
-
-declare module 'express-session' {
-  export interface SessionData {
-    user: { [key: string]: any };
-    _id: ObjectId;
-    coord: Array<number>;
-  }
-}
 
 @Controller('board')
 export class BoardController {
   constructor(private readonly boardService: BoardService) {}
 
-  /* create - Responsible for 'Odd code' */
   @Post()
-  async create(@Body() body: CreateBoardDto, @Session() session: SessionData) {
+  async createBoard(@Res() response, @Body() createBoardDto: CreateBoardDto) {
     try {
-      const user = await this.boardService.getUser(session.user._id);
-      return await this.boardService.create(body, user);
-    } catch (error) {
-      return error;
+      const newBoard = await this.boardService.createBoard(createBoardDto);
+      return response.status(HttpStatus.CREATED).json({
+        message: 'Board has been created successfully',
+        newBoard,
+      });
+    } catch (err) {
+      return response.status(HttpStatus.BAD_REQUEST).json({
+        statusCode: 400,
+        message: 'Error: Board not created!',
+        error: 'Bad Request',
+      });
     }
   }
 
-  /* read - Responsible for 'Jjae gi' */
   @Get(':id')
-  async read(): Promise<void> {
-    return console.log(`read Board`);
+  async readBoard(@Res() response, @Param('id') boardId: string) {
+    try {
+      const readBoard = await this.boardService.readBoard(boardId);
+      return response.status(HttpStatus.OK).json({
+        message: 'Board found successfully',
+        readBoard,
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
   }
 
-  /* update - Responsible for 'FUNco' */
-  /* @Patch(':id')
-  update(
-    @Param('id') id: ObjectId,
-    @Body() body: UpdateBoardDto,
-    @Session() session: SessionData,
-  ): Promise<void> | NotFoundException {
+  @Patch(':id')
+  async updateBoard(
+    @Res() response,
+    @Param('id') boardId: string,
+    @Body() updateBoardDto: UpdateBoardDto,
+  ) {
     try {
-      return this.boardService.updateBoard(body, session.user, id);
-    } catch (error) {
-      return error;
+      const updateBoard = await this.boardService.updateBoard(
+        boardId,
+        updateBoardDto,
+      );
+      return response.status(HttpStatus.OK).json({
+        message: 'Board has been successfully updated',
+        updateBoard,
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
     }
-  } */
+  }
 
-  /* update - Responsible for 'FUNco' */
-  /*  @Delete(':id')
-  delete(
-    @Param('id') id: ObjectId,
-    @Session() session: SessionData,
-  ): Promise<void> | NotFoundException {
-    return this.boardService.deleteBoard(id, session.user);
-  } */
+  @Delete(':id')
+  async deleteBoard(@Res() response, @Param('id') boardId: string) {
+    try {
+      const deleteBoard = await this.boardService.deleteBoard(boardId);
+      return response.status(HttpStatus.OK).json({
+        message: 'Board deleted successfully',
+        deleteBoard,
+      });
+    } catch (err) {
+      return response.status(err.status).json(err.response);
+    }
+  }
 }
