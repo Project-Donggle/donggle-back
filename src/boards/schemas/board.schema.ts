@@ -5,16 +5,16 @@ import { Reply } from './reply.schema';
 
 export type BoardDocument = Board & Document;
 
-@Schema()
+@Schema({ timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } })
 export class Board {
-  @Prop({ required: true, default: Date.now })
-  date: Date;
+  @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
+  createdAt: Date;
+
+  @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
+  updatedAt: Date;
 
   @Prop({ required: true })
   location: string;
-
-  @Prop({ required: true })
-  title: string;
 
   @Prop({ required: true })
   contents: string;

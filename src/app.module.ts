@@ -3,7 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { BoardModule } from './boards/board.module';
-import { ReportModule } from './reports/report.module';
+/* import { ReportModule } from './reports/report.module'; */
 import { UserController } from './users/user.controller';
 import { UserService } from './users/user.service';
 import { UserModule } from './users/user.module';
@@ -12,7 +12,7 @@ import { UserModule } from './users/user.module';
   imports: [
     MongooseModule.forRoot('mongodb://localhost:27017/donggle'),
     BoardModule,
-    ReportModule,
+    /*     ReportModule, */
     UserModule,
   ],
   controllers: [AppController, UserController],

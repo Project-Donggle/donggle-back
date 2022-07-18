@@ -2,11 +2,11 @@ import { IsString } from '@nestjs/class-validator';
 
 export class UpdateBoardDto {
   @IsString()
-  readonly title: string;
+  readonly title?: string;
 
   @IsString()
-  readonly contents: string;
+  readonly contents?: string;
 
   @IsString()
-  readonly emotion: string;
+  readonly emotion?: string;
 }

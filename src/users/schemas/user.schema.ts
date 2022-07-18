@@ -3,8 +3,14 @@ import mongoose, { Document } from 'mongoose';
 
 export type UserDocument = User & Document;
 
-@Schema()
+@Schema({ timestamps: { createdAt: 'createdAt', updatedAt: 'updatedAt' } })
 export class User {
+  @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
+  createdAt: Date;
+
+  @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
+  updatedAt: Date;
+
   @Prop(
     raw({
       id: { type: String, required: true, unique: true },
@@ -19,7 +25,7 @@ export class User {
   @Prop({ default: '동글이', minLength: 2 })
   nickname: string;
 
-  @Prop({ required: true })
+  @Prop({ required: true, unique: true })
   email: string;
 
   @Prop(
