@@ -13,7 +13,7 @@ export class Board {
   @Prop({ default: new Date(), type: mongoose.Schema.Types.Date })
   updatedAt: Date;
 
-  @Prop({ required: true })
+  @Prop(/* { required: true } */)
   location: string;
 
   @Prop({ required: true })
@@ -41,7 +41,10 @@ export class Board {
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Reply' }] })
   comments: Reply[];
 
-  @Prop({ type: mongoose.Schema.Types.ObjectId, required: true, ref: 'User' })
+  @Prop({
+    type: mongoose.Schema.Types.ObjectId,
+    /* required: true ,*/ ref: 'User',
+  })
   owner: User;
 
   @Prop({
