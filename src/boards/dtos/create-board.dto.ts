@@ -1,9 +1,6 @@
 import { IsString } from '@nestjs/class-validator';
 
-export class UpdateBoardDto {
-  @IsString()
-  readonly title: string;
-
+export class CreateBoardDto {
   @IsString()
   readonly contents: string;
 
